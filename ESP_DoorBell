@@ -1,0 +1,53 @@
+esphome:
+  name: esphome-web-b02da3
+  friendly_name: ESPHome_DoorBell
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+  level: WARN #DEBUG
+  logs:
+    mqtt.component: WARN
+    mqtt.client: WARN
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "<your api key>"
+
+ota:
+
+
+wifi:
+  ssid: "<wifi name>"
+  password: "<wifi pass>"
+  manual_ip:
+    static_ip: 192.168.1.101
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  power_save_mode: LIGHT
+
+
+
+mqtt:
+  broker: 192.168.1.100
+  username: "<user>"
+  password: "<mqtt pass>"
+
+#Doorbell circuit has a current clamp on it connected to gpio 5
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 5
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Doorbell Sensor"
+    id: gpio5_sensor
+    on_state:
+      then:
+        - mqtt.publish:
+            topic: "Home/Utility/DoorBell"
+            payload: "BellRung"
+            retain: False
