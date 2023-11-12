@@ -1,0 +1,37 @@
+esphome:
+  name: esphome-freezer
+  friendly_name: ESPHome_Freezer
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "<your key>"
+
+# Add a key here if it is neccessary for you.
+ota:
+
+
+wifi:
+  ssid: "<your SSID>"
+  password: "<wifi-pass>"
+  manual_ip:
+    static_ip: 192.168.1.103
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  power_save_mode: LIGHT
+
+dallas:
+    pin: GPIO5
+
+sensor:
+    platform: dallas
+    address: <your address>
+    name: "Freezer Temperature"
+    #After intial script run you should see the dallas temp sensor id in the log file/ console of ESPHome
+    #comment out this sensor block unless you already know the address sometimes seller provides a sticker with the id which looks like ( 0x00000123456789 )
